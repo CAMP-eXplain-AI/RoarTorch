@@ -179,7 +179,7 @@ def train_and_evaluate_model(arguments):
             """ Save Model """
             if val_accuracy > max_validation_acc:
                 max_validation_acc = val_accuracy
-                if best_validation_model_path:
+                if best_validation_model_path is not None:
                     os.remove(best_validation_model_path)
                 best_validation_model_path = os.path.join(outdir,
                                                           f'epoch_{epoch:04}-model-val_acc_{val_accuracy}.pth')

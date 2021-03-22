@@ -180,6 +180,8 @@ def train_and_evaluate_model(arguments):
             """ Save Model """
             if val_accuracy > max_validation_acc:
                 attribution_method, percentile = arguments['model_name_args']
+                if best_validation_model_path is not None:
+                    os.remove(best_validation_model_path)
                 best_validation_model_path = os.path.join(outdir,
                                                           f'attr_{attribution_method["name"]}-'
                                                           f'percentile_{percentile}-'
