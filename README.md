@@ -24,6 +24,9 @@ Their implementation utilizes Tensorflow, TPU and many simplistic attribution me
   <li>Computing attribution methods during training can cause a very heavy bottleneck if attribution method takes too long to compute. A prime example for this is Integrad which reuires 50-100 forward passes per image.</li>
 </ol>
 
+Our repository uses Pytorch and handles the bottleneck problem by dumping an attribution dataset as an intermediary step. 
+The original dataset and attribution maps are concurrently loaded from disk during the retrain step. 
+
 ### Setup
 
 Requirements: Repository uses Taskfile(optional) and docker. You also need nvidia driver setup to use gpu for model training.
