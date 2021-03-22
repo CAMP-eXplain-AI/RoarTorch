@@ -50,13 +50,13 @@ tasks:
     - |
       PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/train_model.py
 
-  extract_attribution_maps:
+  extract-attribution-maps:
     desc: This method computes attribution maps and extracts them to specified directory.
     cmds:
       - |
         PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/generate_attribution_dataset.py
 
-  evaluate_attribution_maps_roar:
+  evaluate-attribution-maps-roar:
     desc: This method computes roar metrics on extracted attribution maps.
     cmds:
       - |

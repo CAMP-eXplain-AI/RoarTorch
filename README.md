@@ -42,10 +42,10 @@ task bash-docker
 task train-cls
 
 # Extract attribution maps
-task extract_attribution_maps
+task extract-attribution-maps
 
 # Retrain on 
-task evaluate_attribution_maps_roar
+task evaluate-attribution-maps-roar
 ```
 
 
