@@ -1,0 +1,70 @@
+version: '3'
+
+# requirements: Install taskfile, nvidia-container-toolkit and docker.
+# Global Variables
+vars:
+  GT_IMAGE_NAME: roar-attribution-metrics
+  DATA_DIR: /data
+  PYTHON_FLAGS: "TORCH_HOME=./.pytorchcache/ PYTHONPATH=. "
+  DOCKER_FLAGS: "--shm-size 8G --gpus all --network=host --ipc=host -it --rm "
+
+tasks:
+
+  install-nvidia-container-toolkit:
+    desc: https://github.com/NVIDIA/nvidia-docker/issues/1034#issuecomment-632977198
+    cmds:
+      - curl -s -L https://nvidia.github.io/nvidia-container-runtime/gpgkey | sudo apt-key add -
+      - distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+      - |
+        curl -s -L https://nvidia.github.io/nvidia-container-runtime/$distribution/nvidia-container-runtime.list | \
+        sudo tee /etc/apt/sources.list.d/nvidia-container-runtime.list
+      - sudo apt-get update
+      - sudo systemctl restart docker
+
+  build-docker:
+    desc: Build docker image
+    cmds:
+      - |
+        docker build -t {{.GT_IMAGE_NAME}} - < ./Dockerfile
+
+  _run-in-docker:
+    cmds:
+      - |
+        docker run {{.DOCKER_FLAGS}} \
+        -v {{.PWD}}/:/workspace/ \
+        -v {{.DATA_DIR}}/:/data/ \
+        -v $(pwd)/.bash_history:/.bash_history \
+        {{.GT_IMAGE_NAME}} \
+        {{.GT_CMD}}
+
+  bash-docker:
+    desc: Run bash in docker container
+    cmds:
+      - task: _run-in-docker
+        vars:
+          GT_CMD: bash
+
+  train-cls:
+    desc: Train a classification network on PASCAL dataset. To be run from inside docker. Optional var - CONFIG_PATH
+    cmds:
+    - |
+      PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/train_model.py
+
+  extract-attribution-maps:
+    desc: This method computes attribution maps and extracts them to specified directory.
+    cmds:
+      - |
+        PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/generate_attribution_dataset.py
+
+  evaluate-attribution-maps-roar:
+    desc: This method computes roar metrics on extracted attribution maps.
+    cmds:
+      - |
+        PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/retrain_and_evaluate.py
+
+  roar:
+    desc: Run full roar pipeline.
+    cmds:
+      - task: train-cls
+      - task: extract-attribution-maps
+      - task: evaluate-attribution-maps-roar
