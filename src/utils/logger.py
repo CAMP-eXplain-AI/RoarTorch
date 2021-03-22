@@ -24,7 +24,7 @@ def init(log_path, filename_prefix='', log_level=logging.INFO):
          Logging level
     """
     if not os.path.exists(log_path):
-        os.mkdir(log_path)
+        os.makedirs(log_path)
 
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H_%M_%S")
     log_file_path_name = os.path.join(log_path, f'{filename_prefix}_log_' + timestamp + '.log')

@@ -51,25 +51,8 @@ def dump_saliency_data():
 
     roar_core.validate_configuration(cfg, validate_attribution_methods=True)
 
-    dataset_name = cfg['data']['dataset']
-
     # Common Configuration
-    dataset_args = dict(
-        name=MAP_DATASET_TO_ENUM[dataset_name],
-        split_ratio=0.9  # Split train set to train and validation, if Dataset has no validation set, CIFAR10
-    )
-
-    # if opt.dataset == 'CIFAR10':
-    #     dataset_args['split_ratio'] = 1
-    #
-    # if opt.dataset == 'Birdsnap':
-    #     mean = (0.491, 0.506, 0.451)
-    #     std = (0.229, 0.226, 0.267)
-    #     dataset_args['train_transform'] = torchvision.transforms.Compose([torchvision.transforms.Resize(256),
-    #                                                                       torchvision.transforms.CenterCrop(224),
-    #                                                                       torchvision.transforms.ToTensor(),
-    #                                                                       torchvision.transforms.Normalize(mean, std)])
-    #     dataset_args['eval_transform'] = dataset_args['train_transform']
+    dataset_args = cfg['data']
 
     train_data_args = dict(
         batch_size=4,
