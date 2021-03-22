@@ -1,4 +1,11 @@
+# Table of contents
 
+- [ROAR](#roar)
+  - [Introduction](#introduction)
+  - [Setup](#setup)
+  - [Contributions](#contributions)
+  - [Citation](#citation)
+    
 # ROAR
 Remove and Retrain [[1]](#1), ROAR for short, is a benchmark for evaluating interpretability methods in deep neural networks.
 This repository provides implementation of ROAR metric which was used in our work [[2]](#2). 
@@ -14,7 +21,7 @@ ROAR consists of 3 steps:-
 2. Use the trained model to extract attribution maps from original dataset.
 3. Retrain the classification model on altered dataset, where this dataset is created by removing top K% most important pixels from original dataset.
 
-## Implementation
+### Implementation
 
 Note - The original author provided the source code for their implementation [here](https://github.com/google-research/google-research/tree/master/interpretability_benchmark).
 Their implementation utilizes Tensorflow, TPU and many simplistic attribution methods which can be computed during training. This causes few issues:-
@@ -27,7 +34,7 @@ Their implementation utilizes Tensorflow, TPU and many simplistic attribution me
 Our repository uses Pytorch and handles the bottleneck problem by dumping an attribution dataset as an intermediary step. 
 The original dataset and attribution maps are concurrently loaded from disk during the retrain step. 
 
-### Setup
+## Setup
 
 Requirements: Repository uses Taskfile(optional) and docker. You also need nvidia driver setup to use gpu for model training.
 
@@ -50,13 +57,6 @@ task extract-attribution-maps
 # Retrain on 
 task evaluate-attribution-maps-roar
 ```
-
-
-### Adding new dataset
-
-WIP - BirdSnap and Food101 will be added soon. If you are interested in your own dataset, follow below instructions.
-
-ToDo - Add instructions.
 
 ### Adding a new attribution method
 
@@ -93,4 +93,4 @@ If you use this work, please do cite both references.
 Hooker, Sara, et al. "A Benchmark for Interpretability Methods in Deep Neural Networks." NeurIPS. 2019.
 
 <a id="2">[2]</a> 
-ToDo - Add our citation.
+Khakzar, Ashkan, et al. "Neural Response Interpretation through the Lens of Critical Paths" CVPR 2021.
