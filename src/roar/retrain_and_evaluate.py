@@ -192,10 +192,10 @@ def train_and_evaluate_model(arguments):
                 print(f'Model saved at: {best_validation_model_path}')
 
         if lr_scheduler is not None:
-            prev_lr = lr_scheduler.get_lr()
-            lr_scheduler.step(epoch)
-            if lr_scheduler.get_lr() != prev_lr:
-                print(f'Updated from {prev_lr} to {lr_scheduler.get_lr()}')
+            prev_lr = lr_scheduler.get_last_lr()
+            lr_scheduler.step()
+            if lr_scheduler.get_last_lr() != prev_lr:
+                print(f'Updated from {prev_lr} to {lr_scheduler.get_last_lr()}')
 
     print('Finished Training')
     print(f'Max Validation accuracy is {max_validation_acc}')

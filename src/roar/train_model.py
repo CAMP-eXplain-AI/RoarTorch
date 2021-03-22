@@ -190,7 +190,7 @@ def train_and_evaluate_model(arguments):
             prev_lr = lr_scheduler.get_last_lr()
             lr_scheduler.step()
             if lr_scheduler.get_last_lr() != prev_lr:
-                logger.warn(f'Updated LR from {prev_lr} to {lr_scheduler.get_lr()}')
+                logger.warn(f'Updated LR from {prev_lr} to {lr_scheduler.get_last_lr()}')
 
     logger.info('Finished Training')
     logger.info(f'Max Validation accuracy is {max_validation_acc}')
