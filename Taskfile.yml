@@ -61,3 +61,10 @@ tasks:
     cmds:
       - |
         PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/retrain_and_evaluate.py
+
+  roar:
+    desc: Run full roar pipeline.
+    cmds:
+      - task: train-cls
+      - task: extract-attribution-maps
+      - task: evaluate-attribution-maps-roar
