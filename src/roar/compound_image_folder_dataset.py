@@ -7,7 +7,7 @@ from PIL import Image
 from torch.utils.data import DataLoader
 
 from src.dataset import factory as dataset_factory
-from src.roar import common
+from src.roar import roar_core
 from src.utils.sysutils import get_cores_count
 
 
@@ -100,7 +100,7 @@ class CompoundImageFolderDataset(torch.utils.data.Dataset):
         # T.ToPILImage()(image).save('input.jpg')  # only for training, for validation/test, denormalize first.
         image = np.array(image)
         attribution_map = np.max(attribution_map.numpy(), axis=0, keepdims=True)
-        image = common.remove(image, attribution_map, mean, self.percentile, keep=not self.roar, gray=True)
+        image = roar_core.remove(image, attribution_map, mean, self.percentile, keep=not self.roar, gray=True)
 
         if self.mode == 'training':
             # Do augmentation(randomscale/randomcrop) transform only after removal of pixels is done.
