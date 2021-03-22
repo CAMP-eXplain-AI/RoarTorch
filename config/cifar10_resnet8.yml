@@ -30,7 +30,7 @@ extract_cams:
         transformer: ~
     attribution_methods: &ATTRIBUTION_METHODS
         - name: gradcam
-          method: src.attribution_loader.compute_gradcam
+          method: src.attribution_methods.gradcam.compute_gradcam
           kwargs:
               saliency_layer: 'layer3.0.relu'
 retrain_cls:
