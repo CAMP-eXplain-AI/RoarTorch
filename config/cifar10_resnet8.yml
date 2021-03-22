@@ -1,0 +1,54 @@
+desc: 'Config for training Resnet8 classification network on CIFAR10 dataset'
+outdir: &outdir 'runs/cifar10_resnet8'
+data:
+    dataset: CIFAR10
+    split_ratio: 0.875  # 7/8
+    dataset_dir: 'data/CIFAR10'
+train_cls:
+    model:
+        arch: &BASE_ARCH 'src.models.classification.PytorchCifarResnet.ResNet8'
+        pretrained_weights: ~
+        constructor_args: ~
+        transformer: ~
+    scheduler: &SCHEDULER
+        name: 'torch.optim.lr_scheduler.StepLR'
+        step_size: 10
+        gamma: 0.5
+    optimizer: &OPTIMIZER
+        name: 'torch.optim.Adam'
+        lr: 1.0e-3
+        weight_decay: 0.0001
+    loss: &LOSS
+        name: 'torch.nn.CrossEntropyLoss'
+    batch_size: &BATCH_SIZE 256
+    nb_epochs: &NB_EPOCHS 50
+extract_cams:
+    model:
+        arch: *BASE_ARCH
+        pretrained_weights: !!python/object/apply:os.path.join [*outdir, 'train_cls/best_model.pth']
+        constructor_args: ~
+        transformer: ~
+    attribution_methods: &ATTRIBUTION_METHODS
+        - name: gradcam
+          method: src.attribution_loader.compute_gradcam
+          kwargs:
+              saliency_layer: 'layer3.0.relu'
+retrain_cls:
+    model:
+        arch: *BASE_ARCH
+        pretrained_weights: ~  # Retrain always from scratch
+        constructor_args: ~  # Any arguments to pass to constructor
+        transformer: ~  # Any changes to apply to model last layer, say if using Resnet50 for training on 40 class dataset.
+    attribution_methods: *ATTRIBUTION_METHODS  # Use same attribution methods as defined in extract_cams stage.
+    metrics: 'roar' # ['roar', 'kar']
+    percentiles:
+        - 10
+        - 30
+        - 50
+        - 70
+        - 90
+    scheduler: *SCHEDULER
+    optimizer: *OPTIMIZER
+    loss: *LOSS
+    batch_size: *BATCH_SIZE
+    nb_epochs: *NB_EPOCHS
