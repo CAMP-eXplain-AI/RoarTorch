@@ -43,3 +43,21 @@ tasks:
       - task: _run-in-docker
         vars:
           GT_CMD: bash
+
+  train-cls:
+    desc: Train a classification network on PASCAL dataset. To be run from inside docker. Optional var - CONFIG_PATH
+    cmds:
+    - |
+      PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/train_model.py
+
+  extract_attribution_maps:
+    desc: This method computes attribution maps and extracts them to specified directory.
+    cmds:
+      - |
+        PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/generate_attribution_dataset.py
+
+  evaluate_attribution_maps_roar:
+    desc: This method computes roar metrics on extracted attribution maps.
+    cmds:
+      - |
+        PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/retrain_and_evaluate.py
