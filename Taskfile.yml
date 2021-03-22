@@ -1,22 +1,14 @@
 version: '3'
 
-# requirements: Install wandb, taskfile, nvidia-container-toolkit and docker.
-# Initialize wandb directory using `task init-wandb`
+# requirements: Install taskfile, nvidia-container-toolkit and docker.
 # Global Variables
 vars:
   GT_IMAGE_NAME: roar-attribution-metrics
   DATA_DIR: /data
-  PYTHON_FLAGS: "TORCH_HOME=./.pytorchcache/ PYTHONPATH=. WANDB_CONFIG_DIR=.config "
+  PYTHON_FLAGS: "TORCH_HOME=./.pytorchcache/ PYTHONPATH=. "
   DOCKER_FLAGS: "--shm-size 8G --gpus all --network=host --ipc=host -it --rm "
 
 tasks:
-
-  # ToDo - Call tasks used for setup through a 'setup' task
-  init-wandb:
-    desc: Initialize wandb in local config directory. Run from outside docker.
-    cmds:
-      - pip install -y wandb
-      - wandb init
 
   install-nvidia-container-toolkit:
     desc: https://github.com/NVIDIA/nvidia-docker/issues/1034#issuecomment-632977198
@@ -38,7 +30,7 @@ tasks:
   _run-in-docker:
     cmds:
       - |
-        wandb docker-run {{.DOCKER_FLAGS}} \
+        docker run {{.DOCKER_FLAGS}} \
         -v {{.PWD}}/:/workspace/ \
         -v {{.DATA_DIR}}/:/data/ \
         -v $(pwd)/.bash_history:/.bash_history \
