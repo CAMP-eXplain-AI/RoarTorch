@@ -16,7 +16,7 @@
 
 # Introduction
 
-This repository provides implementation for attribution metrics: ROAR and LeRF/MoRF metrics which was used in our work [[1]](#1). If you find this work helpful, please cite[[1]](#1). 
+This repository provides implementation for attribution metrics: ROAR and LeRF/MoRF metrics which was used in our work [[1]](#1).
 
 ## Setup
 
