@@ -2,7 +2,7 @@ desc: 'Config for training Resnet8 classification network on CIFAR10 dataset'
 outdir: 'runs/lefr_imagenet_resnet50'
 data:
     dataset: ImageNet
-    dataset_dir: '/home/ashkan/data/ILSVRC2012/'  # Provide path to test directory
+    dataset_dir: 'data/ILSVRC2012/'  # Provide path to test directory
 pixel_perturbation_analysis:
     model:
         arch: 'torchvision.models.resnet50'

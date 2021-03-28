@@ -11,8 +11,9 @@ vars:
 tasks:
 
   install-nvidia-container-toolkit:
-    desc: https://github.com/NVIDIA/nvidia-docker/issues/1034#issuecomment-632977198
+    desc: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
     cmds:
+      - echo "See https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker if this doesnt work."
       - curl -s -L https://nvidia.github.io/nvidia-container-runtime/gpgkey | sudo apt-key add -
       - distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
       - |
@@ -51,13 +52,13 @@ tasks:
       PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/train_model.py
 
   extract-attribution-maps:
-    desc: This method computes attribution maps and extracts them to specified directory.
+    desc: This task computes attribution maps and extracts them to specified directory.
     cmds:
       - |
         PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/generate_attribution_dataset.py
 
   evaluate-attribution-maps-roar:
-    desc: This method computes roar metrics on extracted attribution maps.
+    desc: This task computes roar metrics on extracted attribution maps.
     cmds:
       - |
         PYTHONPATH=. TORCH_HOME=./.py-cache python src/roar/retrain_and_evaluate.py
@@ -68,3 +69,9 @@ tasks:
       - task: train-cls
       - task: extract-attribution-maps
       - task: evaluate-attribution-maps-roar
+
+  lerf:
+    desc: This task computes lerf metrics. By default uses Resnet50 and ImageNet dataset.
+    cmds:
+      - |
+        PYTHONPATH=. TORCH_HOME=./.py-cache python src/lerf/pixel_perturbation_analysis.py
