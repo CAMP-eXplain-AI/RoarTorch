@@ -67,10 +67,10 @@ The original dataset and attribution maps are concurrently loaded from disk duri
 # Train model (by default uses Resnet8 with CIFAR10)
 task train-cls
 
-# Extract attribution maps
+# Extract attribution maps to remove most important pixels later.
 task extract-attribution-maps
 
-# Retrain on 
+# Retrain Resnet8 with altered CIFAR10.
 task evaluate-attribution-maps-roar
 ```
 
