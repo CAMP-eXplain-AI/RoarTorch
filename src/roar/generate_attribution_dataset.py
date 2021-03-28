@@ -44,7 +44,8 @@ def dump_saliency_data():
     """
 
     parser = argparse.ArgumentParser(description="config")
-    parser.add_argument("--config", type=str, default="config/cifar10_resnet8.yml", help="Configuration file to use.")
+    parser.add_argument("--config", type=str, default="config/roar_cifar10_resnet8.yml",
+                        help="Configuration file to use.")
     args = parser.parse_args()
     with open(args.config) as fp:
         cfg = yaml.load(fp, Loader=Loader)
