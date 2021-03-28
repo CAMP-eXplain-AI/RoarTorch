@@ -1,0 +1,29 @@
+desc: 'Config for training Resnet8 classification network on CIFAR10 dataset'
+outdir: 'runs/lefr_imagenet_resnet50'
+data:
+    dataset: ImageNet
+    dataset_dir: '/home/ashkan/data/ILSVRC2012/'  # Provide path to test directory
+pixel_perturbation_analysis:
+    model:
+        arch: 'torchvision.models.resnet50'
+        constructor_args:
+            pretrained: True
+        transformer: ~  # src.models.utils.append_linear_layer_transform - useful when model last layer needs to be changed to predict right number of classes before weights can be loaded.
+        pretrained_weights: ~  # For torchvision.models, we use default pretrained weights for Imagenet.
+    attribution_methods: &ATTRIBUTION_METHODS
+        - name: gradcam
+          method: src.attribution_methods.gradcam.compute_gradcam
+          kwargs:
+              saliency_layer: 'layer4'
+    percentiles:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+    test_samples: 2000 # Note: if test_set has less samples, we use len(test_set).
