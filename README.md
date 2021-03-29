@@ -119,7 +119,7 @@ For any questions, bugs or feature enhancement, simply make an [issue](https://g
 
 If you use this work, please do cite following references.
 
-<a id="1">[1]</a> Khakzar, Ashkan, et al. "Neural Response Interpretation through the Lens of Critical Paths" CVPR 2021.
+<a id="1">[1]</a> Khakzar, Ashkan, et al. "Neural Response Interpretation through the Lens of Critical Pathways" CVPR 2021.
 
 <a id="2">[2]</a> Hooker, Sara, et al. "A Benchmark for Interpretability Methods in Deep Neural Networks." NeurIPS 2019.
 
